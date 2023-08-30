@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan Elektronik</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=The+Nautigal:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lovers+Quarrel&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Murecho:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sassy+Frass&family=Ysabeau+SC&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mr+De+Haviland&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Carme&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- untuk notifikasi -->
+  <div id="notification" class="alert alert-info fixed-notification" style="display: none;    white-space: pre-line;">
+
+  </div>
+  <div id="semua_undangan_awal" style="overflow-x: hidden; height: 880px;">
+    <img class="flower1_bagian_satu" src="/img/flower1.png" alt="">
+    <img class="flower1_bagian_dua" src="/img/flower1.png" alt="">
+    <img class="flower1_bagian_tiga" src="/img/flower1.png" alt="">
+    <img class="flower1_bagian_empat" src="/img/flower1.png" alt="">
+    <div class="header" style="position: relative; right: 80px;">
+      <h1 class="display-4" style="color: #ffffff;font-family: 'The Nautigal', cursive;" >Acara</h1>
+      <h1 class="display-4" style="color: #fdfdfd; position: relative; bottom: 30px; left: 80px; font-family: 'The Nautigal', cursive;">Pernikahan</h1>
+    </div>
+    <div class="container" style="position: relative; bottom: 40px;">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="bride-groom">
+            <div class="bride">
+              <img src="img/1.jpg" alt="Bride">
+            </div>
+            <div class="groom">
+              <img src="img/2.jpg" alt="Groom">
+            </div>
+          </div>
+          <div class="content">
+            <div class="title" style="font-size: 50px ; font-family: 'Lovers Quarrel', cursive;">Fiorentina & Fachri</div>
+            <p style="color: #fafafa; font-family: sans-serif; font-size: 13px;">Minggu, 1 Oktober 2023</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container" id="invitation" style="position: relative; bottom: 30px;">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          
+          <div class="content">
+            <div style=" color: #fafafa; font-family: sans-serif;">Yang Terhormat Bpk/Ibu</div>
+            <div class="subtitle" style=" color: #fafafa;font-size: 40px;"><%=db_data_kontak.firstName%></div>
+            <div class="subtitle" style=" color: #fafafa;font-size: 18px; font-family: sans-serif;">Kami mengundang Anda untuk hadir dalam acara pernikahan Kami.</div>
+            <button class="btn btn-open-invitation" style="font-family:sans-serif; font-size: 15px; border-radius: 5px;" onclick="buka_undangan();"><i class="fa-solid fa-envelope"></i> Buka Undangan</button>
+            <br>
+            <br>
+            <button class="btn btn-open-invitation" style="font-family:sans-serif; font-size: 15px; border-radius: 5px;" data-toggle="modal" data-target="#undanganModal"><i class="fa-solid fa-qrcode"></i> QrCode</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="undanganModal" tabindex="-1" role="dialog" aria-labelledby="undanganModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div style="position: fixed; bottom: 0%; left: 0%; transition: bottom 0.3s;    background: linear-gradient(to bottom right, #709e65, #e8cc6e);" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="undanganModalLabel" style="font-family: sans-serif;">Scan Qr ini</h5>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container text-center">
+            <div style="max-width: 80%; margin: 0 auto;box-shadow: 10px 10px 44px -3px rgba(0,0,0,0.75);
+            -webkit-box-shadow: 10px 10px 44px -3px rgba(0,0,0,0.75);
+            -moz-box-shadow: 10px 10px 44px -3px rgba(0,0,0,0.75);">
+              <img src="<%= qr_undangan %>" alt="QR Code Undangan" style="width: 100%; height: auto;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- batas untuk buka -->
+<div id="untuk_buka" style="display: none; ">
+  <img class="flower1_bagian_satu_buka" src="/img/flower1.png" alt="">
+  <img class="flower1_bagian_dua_buka" src="/img/flower1.png" alt="">
+  <img class="flower1_bagian_tiga_buka" src="/img/flower1.png" alt="">
+  <div id="kedua_mempelai">
+  <div class="header" style="position: relative; right: 80px;">
+    <h1 class="display-4" style="color: #fafafa;font-family: 'The Nautigal', cursive;" >Acara</h1>
+    <h1 class="display-4" style="color: #fffdfe; position: relative; bottom: 30px; left: 80px; font-family: 'The Nautigal', cursive;">Pernikahan</h1>
+  </div>
+  <div class="container" style="position: relative; bottom: 40px;">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="bride-groom">
+          <div class="bride">
+            <img src="img/1.jpg" alt="Bride">
+          </div>
+          <div class="groom">
+            <img src="img/2.jpg" alt="Groom">
+          </div>
+        </div>
+        <div class="content">
+          <div class="title" style="font-size: 50px ; font-family: 'Lovers Quarrel', cursive;">Fiorentina & Fachri</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<!-- untuk time -->
+  <svg id="ombak_kotak_waktu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,64L48,106.7C96,149,192,235,288,224C384,213,480,107,576,58.7C672,11,768,21,864,58.7C960,96,1056,160,1152,181.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+  <center>
+    <div id="kotak_waktu" style="  background: white">
+      <section style="position: relative; top: 80px;">
+    <h3 style="position: relative; bottom: 20px;font-family: 'Ysabeau SC', sans-serif;">Kami mengundang Anda</h3>
+    <h1 style="position: relative; bottom: 20px;font-family: 'Mr De Haviland', cursive;"><%= db_data_kontak.firstName %></h1>
+    <p style=" font-size: 15px; position: relative; bottom: 20px;font-family: 'Carme', sans-serif;">Di Acara Penikahan <span style="font-family: 'Lovers Quarrel', cursive; font-size: 30px;  "> Fachri </span> Dengan <span style="font-family: 'Lovers Quarrel', cursive; font-size: 30px; ">Fiorentina</span></p>
+    <br><br>
+    <p style=" font-size: 40px; position: relative; bottom: 20px;margin:0px;font-family: 'Julius Sans One', sans-serif;">DATE</p>
+    <img style=" position: relative; bottom: 20px; width: 300px;" src="/img/slide.png" alt="">
+    <p style=" font-size: 40px; position: relative; bottom: 20px;margin:0px;font-family: 'The Nautigal', cursive;">Minggu</p>
+    <p style=" font-size: 30px; position: relative; bottom: 20px;margin:0px;font-family: 'Julius Sans One', sans-serif;"><span style="font-size: 30px; color: rgb(36, 36, 36);">1 </span>Oktober 2023</p>
+    <p style=" font-size: 15px; position: relative; bottom: 20px;margin:0px;font-family: 'Julius Sans One', sans-serif;">09:00 WIB</p>
+    <img style=" position: relative; bottom: 10px; width: 300px;" src="/img/slide2.png" alt="">
+    <div style="position: relative; top: 50px;">
+      <p style=" font-size: 20px; position: relative; bottom: 50px;margin:0px;font-family: 'Ysabeau SC', sans-serif;">Hitung Mundur</p>    
+    <mark id="hari"> Hari</mark>
+    <mark id="jam"> Jam</mark>
+    <mark id="menit"> Menit</mark>
+    <mark id="detik"> Detik</mark>
+  </section>
+  </div>
+
+  <!-- untuk kotak doa nikah -->
+  <div id="kotak_doa">
+    <h4 style="position: relative; bottom: 0px;font-family: 'Ysabeau SC', sans-serif;">Doa</p>
+    <h4 style=" position: relative; bottom: 20px; font-family: 'Mr De Haviland', cursive;">Syukur</h4>
+    <p style=" font-size: 17px; width: 90%; position: relative;font-family: 'Carme', sans-serif;">Alhamdulillah, atas karunia Allah yang Maha Pengasih dan Maha Penyayang, dengan penuh rasa syukur kami bersatu dalam ikatan pernikahan ini. Semoga pernikahan ini diberkahi oleh-Nya, mengikuti jalan Islam yang membimbing langkah kita, dan menjadi sumber kebahagiaan serta keberkahan bagi kita berdua. Aamiin</p>
+    <img style=" position: relative; bottom: 0px; width: 80%;" src="/img/garis_quotes.png" alt="">
+  </div>
+    <!-- untuk kotak about -->
+    <div id="kotak_about">
+      <h4 id="kotak_about_profile" style="font-family: 'Ysabeau SC', sans-serif;">profile</p>
+      <h4 id="kotak_about_mempelai" style=" position: relative; bottom: 20px; font-family: 'Mr De Haviland', cursive;">Mempelai</h4>
+        <img id="kotak_img_mempelai_cowo"style=" position: relative; width: 150px; height: 150px; border-radius: 50%;" src="img/1.jpg" alt="Bride">
+        <h4 id="kotak_foto_panggilan_mempelai_pria" style=" font-size: 40px; font-family: 'Lovers Quarrel', cursive; position: relative; top: 20px;">Fachri</p>
+          <p id="kotak_nama_lengkap_mempelai_pria" style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;">Muhammad Fachri Baharsyah S.Te</p>
+      <h4 id="kotak_putra_dari_mempelai_pria" style="font-family: 'The Nautigal', cursive; margin-top: 30px; font-size: 30px;">Putra Dari</h4>
+    <p id="kotak_nama_orangtua_dari_mempelai_pria" style=" font-size: 17px; width: 90%; position: relative;font-family: 'Carme', sans-serif;">Bapak Kasino Dan Ibu Dwi Setyowati</p>
+    <a id="kotak_nama_instagram_dari_mempelai_pria" href="" style="color: #6eb67e;"><i class="fa-brands fa-instagram"></i>mfachribaharsyah</a>
+    <br><img id="kotak_dan_dari_kedua_mempelai_pria" style="width: 50%; margin-top: 50px; margin-bottom: 50px;" src="/img/dan.png" alt=""><br>
+    <img id="kotak_img_mempelai_wanita" style=" position: relative; width: 150px; height: 150px; border-radius: 50%;" src="img/2.jpg" alt="Bride">
+    <h4 id="kotak_foto_panggilan_mempelai_wanita" style=" font-size: 40px; font-family: 'Lovers Quarrel', cursive; position: relative; top: 20px;">Fiorentina</p>
+      <p id="kotak_nama_lengkap_mempelai_wanita" style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;">Fiorentina Azahra</p>
+  <h4 id="kotak_putri_dari_mempelai_wanita" style="font-family: 'The Nautigal', cursive; margin-top: 30px; font-size: 30px;">Putra Dari</h4>
+<p id="kotak_nama_orangtua_dari_mempelai_wanita" style=" font-size: 17px; width: 90%; position: relative;font-family: 'Carme', sans-serif;">Bapak Warno Dan Ibu Contoh</p>
+<a id="kotak_nama_instagram_dari_mempelai_wanita" href="" style="color: #6eb67e;"><i class="fa-brands fa-instagram"></i>mozaachmad99</a>
+      </div>
+      <div id="kotak_resepsi_dan_akad">
+        <section style="position: relative; top: 80px;">
+      <p id="kotak_tulisan_akad" style=" font-size: 40px; position: relative; bottom: 20px;margin:0px;font-family: 'The Nautigal', cursive;">Akad</p>
+      <img id="kotak_gambar_akad" style=" position: relative; bottom: 20px; width: 300px;" src="/img/slide.png" alt="">
+      <p id="kotak_akad_hari" style=" font-size: 40px; position: relative; bottom: 20px;margin:0px;font-family: 'The Nautigal', cursive;">Senin</p>
+      <p id="kotak_akad_tanggal" style=" font-size: 30px; position: relative; bottom: 20px;margin:0px;font-family: 'Julius Sans One', sans-serif;"><span style="font-size: 30px; color: rgb(36, 36, 36);">03 </span>Oktober 2023</p>
+      <p  id="kotak_akad_jam" style=" font-size: 15px; position: relative; bottom: 20px;margin:0px;font-family: 'Julius Sans One', sans-serif;">09:00 WIB</p>
+      <img id="kotak_gambar_akad_tutup" style=" position: relative; bottom: 10px; width: 300px;" src="/img/slide2.png" alt="">
+    </section>
+    <section style="position: relative; top: 120px;">
+      <p id="kotak_tulisan_resepsi" style=" font-size: 40px; position: relative; bottom: 20px;margin:0px;font-family: 'The Nautigal', cursive;">Resepsi</p>
+      <img id="kotak_gambar_resepsi"  style=" position: relative; bottom: 20px; width: 300px;" src="/img/slide.png" alt="">
+      <p id="kotak_resepsi_hari" st style=" font-size: 40px; position: relative; bottom: 20px;margin:0px;font-family: 'The Nautigal', cursive;">Senin</p>
+      <p id="kotak_resepsi_tanggal" style=" font-size: 30px; position: relative; bottom: 20px;margin:0px;font-family: 'Julius Sans One', sans-serif;"><span style="font-size: 30px; color: rgb(36, 36, 36);">03 </span>Oktober 2023</p>
+      <p id="kotak_resepsi_jam" sty style=" font-size: 15px; position: relative; bottom: 20px;margin:0px;font-family: 'Julius Sans One', sans-serif;">11:00 WIB</p>
+      <img id="kotak_gambar_resepsi_tutup" style=" position: relative; bottom: 10px; width: 300px;" src="/img/slide2.png" alt="">
+    </section>
+    </div>
+    <div id="kotak_lokasi">
+      <section style="position: relative; top: 0px;">
+        <div style=" position: relative; top: 50px; width: 70%;">
+          <p style="font-size: 30px; position: relative; bottom: 20px;font-family: 'The Nautigal', cursive;">Lokasi</p>
+          <img style="width:100%; position: relative;  bottom: 20px;" src="/img/garis_maps.png" alt="garis biasa">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7926.080017845165!2d106.99596164741814!3d-6.192074248349948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5ef9eb08a13%3A0xddcdaa1a0e4c475a!2s-6.192074%2C%20106.997973!5e0!3m2!1sen!2sid!4v1628771067124!5m2!1sen!2sid" class="h-100 w-100" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <p style =" font-size: 15px; position: absolute; left: auto; font-family: 'Caveat', cursive;">Alamat</p>
+        <p style =" font-size: 15px; text-align: left; position: relative; top: 20px; left: auto; font-family: 'Caveat', cursive;">Jl Kaliabang Tengah Rt 05 Rw 04 No 10 Bekasi Utara Kota Bekasi</p>
+        <a style="position: relative; top: 80px; z-index: 2;" id="lihat_lokasi" href=""><i class="fa-solid fa-location-dot"></i>Lihat Lokasi</a>
+      </div>
+      </section>
+    </div>
+    <div id="kotak_turut_mengundang">
+      <section style="position: relative; top: 0px;">
+        <div style=" position: relative; top: 50px; width: 70%;">
+          <p style="font-size: 30px; position: relative; bottom: 20px;font-family: 'The Nautigal', cursive;">Turut Mengundang</p>
+          <img style="width:100%; position: relative;  bottom: 20px;" src="/img/garis_love.png" alt="garis biasa">
+        <p style =" font-size: 15px; position: relative; left: auto; font-family: 'Caveat', cursive; text-align: left;"><i style="font-size: 10px;" class="fa-solid fa-circle"></i><span style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;"> Ibu Farida</span> Ketua Rt 05 Bekasi Utara</p>
+        <p style =" font-size: 15px; position: relative; left: auto; font-family: 'Caveat', cursive; text-align: left;"><i style="font-size: 10px;" class="fa-solid fa-circle"></i><span style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;"> Ust Hanifah</span> Guru</p>
+        <p style =" font-size: 15px; position: relative; left: auto; font-family: 'Caveat', cursive; text-align: left;"><i style="font-size: 10px;" class="fa-solid fa-circle"></i><span style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;"> Bpk Ahmad Supandi</span> Guru</p>
+        <p style =" font-size: 15px; position: relative; left: auto; font-family: 'Caveat', cursive; text-align: left;"><i style="font-size: 10px;" class="fa-solid fa-circle"></i><span style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;"> Bpk Andi Kusumana,S.H</span> Guru</p>
+        <p style =" font-size: 15px; position: relative; left: auto; font-family: 'Caveat', cursive; text-align: left;"><i style="font-size: 10px;" class="fa-solid fa-circle"></i><span style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;"> Bpk Suryanto,S.E</span> Guru</p>
+        <p style =" font-size: 15px; position: relative; left: auto; font-family: 'Caveat', cursive; text-align: left;"><i style="font-size: 10px;" class="fa-solid fa-circle"></i><span style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;"> Bpk Achmad Rifai </span> Guru</p>
+        <p style =" font-size: 15px; position: relative; left: auto; font-family: 'Caveat', cursive; text-align: left;"><i style="font-size: 10px;" class="fa-solid fa-circle"></i><span style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;"> Bpk Nur Rochmat </span> Guru</p>
+        <p style =" font-size: 15px; position: relative; left: auto; font-family: 'Caveat', cursive; text-align: left;"><i style="font-size: 10px;" class="fa-solid fa-circle"></i><span style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;"> Ust.Syafiq Abrori,SS.P,MM </span> Guru</p>
+
+      </div>
+      </section>
+    </div>
+    
+
+    <ul class="list-group list-group-flush" style="text-align: left; width: 95%; background: white; font-family: sans-serif; position: relative; top: 250px; height: 400px; overflow-y: scroll; border-radius: 10px;">
+      <li  class="list-group-item" style="font-size: 20px; margin-bottom: 10px;"><i class="fa-regular fa-comment"></i>&nbsp;Berikan Ucapan</li>
+      <div id="id_nya"></div>
+      <% db_data_komentar.forEach(kirim_komentar => { %>
+        <li class="list-group-item" id="<%= kirim_komentar._id %>" style="margin-bottom: 5px; padding: 10px;">
+          <i class="fa-regular fa-comments"></i>&nbsp;<%= kirim_komentar.nama_akun %>
+          <br>
+          <span style="font-size: 10px;">
+            <i style="color: rgb(102, 102, 102);" class="fa-solid fa-clock"></i>&nbsp;<span class="tanggal"><%=kirim_komentar.tanggal%></span>
+          </span>
+          <br>
+          <span style=" position: relative; bottom: 20px; font-size: 15px; width: 90%; display: block; overflow-x: hidden; white-space: pre-line;">
+            <%= kirim_komentar.komentar %>
+          </span>
+        </li>
+      <% }); %>
+    </ul>
+
+    <br><br><br><br><br><br>
+  
+    <div class="col-md-6" style="position: relative; top: 150px;">
+      <div class="input-group">
+        <textarea style="width: 80%; border: none; font-family: 'Ysabeau SC', sans-serif;box-shadow: 10px 10px 31px -12px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 31px -12px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 31px -12px rgba(0,0,0,0.75);" id="komentar" placeholder="Berikan Ucapan" rows="2"></textarea>
+        <div class="input-group-append">
+          <button type="button" style="background: linear-gradient(to bottom right, #709e65, #e8cc6e); border: none; color: white;box-shadow: 10px 10px 31px -12px rgba(0,0,0,0.75);
+          -webkit-box-shadow: 10px 10px 31px -12px rgba(0,0,0,0.75);
+          -moz-box-shadow: 10px 10px 31px -12px rgba(0,0,0,0.75);" onclick="komentar()">Kirim</button>
+        </div>
+      </div>
+    </div>
+    <svg id="ombak_kotak_terimakasih" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,64L48,106.7C96,149,192,235,288,224C384,213,480,107,576,58.7C672,11,768,21,864,58.7C960,96,1056,160,1152,181.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+      <div id="kotak_terimakasih" style="  background: white">
+        <img style="width: 250px;" src="/img/fiodanfachri.png" alt="">
+    </div>
+  
+  </div>
+
+  <div class="desktop"><p>Tidak Mendukung Mode Destop Mohon buka Di perangkat Mobile atau beralih ke mode Mobile/Tablet  </p></div>
+  </center>
+<script>
+
+window.onload = function() {
+        const elementsWithClass = document.getElementsByClassName('tanggal');
+const count = elementsWithClass.length;
+console.log(count);
+
+for (var i = 0; i < count; i++) {
+  var tanggal = elementsWithClass[i].textContent; // Menggunakan elementsWithClass[i]
+  const referenceDateString = tanggal;
+  const referenceDate = new Date(referenceDateString);
+
+  const currentDate = new Date();
+
+  const timeDifference = currentDate - referenceDate;
+
+  const minutes = Math.floor(timeDifference / (1000 * 60));
+  const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+  const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  const months = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30.44));
+  const years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365.25));
+
+  const resultElement = elementsWithClass[i]; // Menggunakan elementsWithClass[i]
+
+  if (years > 0) {
+    resultElement.textContent = `${years} tahun yang lalu`;
+  } else if (months > 0) {
+    resultElement.textContent = `${months} bulan yang lalu`;
+  } else if (days > 0) {
+    resultElement.textContent = `${days} hari yang lalu`;
+  } else if (hours > 0) {
+    resultElement.textContent = `${hours} jam yang lalu`;
+  } else {
+    resultElement.textContent = `${minutes} menit yang lalu`;
+  }
+}
+
+}
+// batansya ----------------------------------------------------------
+
+  function komentar() {
+    const komentar= document.getElementById(`komentar`);
+        const notificationCard = document.getElementById('notification');
+        const showNotificationBtn = document.getElementById('showNotification');
+
+
+
+        // Objek data yang akan dikirimkan
+        const data = {
+          komentar:komentar.value,
+          nama:"<%= db_data_kontak.firstName %>"
+        };
+    
+        fetch(`/undangan/komentar`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(() => {
+
+              // Tampilkan data yang diperbarui di halaman
+    const updateResultElement = document.getElementById('id_nya');
+    updateResultElement.innerHTML = `
+    <li class="list-group-item">
+          <i class="fa-regular fa-comments"></i>&nbsp; <%= db_data_kontak.firstName %>
+          <br>
+          <span style="font-size: 10px;">
+            <i style="color: rgb(102, 102, 102);" class="fa-solid fa-clock"></i>&nbsp;<span class="tanggal">0 menit yang lalu</span>
+          </span>
+          <br>
+          <span style=" position: relative; bottom: 20px; font-size: 15px; width: 90%; display: block; overflow-x: hidden; white-space: pre-line;">
+            ${komentar.value}
+          </span>
+        </li>
+    `;
+
+
+      komentar.value="";
+      notificationCard.innerHTML="Berhasil Memberikan Ucapan";
+
+      notificationCard.style.display = 'block';
+
+      notificationCard.classList.add('show-notification');
+
+      setTimeout(() => {
+        notificationCard.classList.remove('show-notification');
+
+
+        setTimeout(() => {
+          notificationCard.style.display = 'none';
+        }, 500); 
+      }, 2000);
+    })
+        .catch(error => {
+          console.error('Terjadi kesalahan:', error);
+        });
+      }
+
+
+// untuk hitung mundur-------------------
+const currentTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
+
+const targetTime = new Date('2023-10-21T09:00:00').toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
+
+const timeDifference = new Date(targetTime) - new Date(currentTime);
+
+const secondsDifference = Math.floor(timeDifference / 1000);
+
+
+  var seconds = secondsDifference;
+  
+  function countdown() {
+    var days = Math.floor(seconds / 24 / 60 / 60);
+    var hoursLeft = Math.floor((seconds) - (days * 86400));
+    var hours = Math.floor(hoursLeft / 3600);
+    var minutesLeft = Math.floor((hoursLeft) - (hours * 3600));
+    var minutes = Math.floor(minutesLeft / 60);
+    var remainingSeconds = seconds % 60;
+    
+    document.getElementById("hari").innerHTML = days;
+    document.getElementById("jam").innerHTML = hours;
+    document.getElementById("menit").innerHTML = minutes;
+    document.getElementById("detik").innerHTML = remainingSeconds;
+    
+    if (seconds > 0) {
+      seconds--;
+    } else {
+      clearInterval(countdownInterval);
+    }
+  }
+  
+  var countdownInterval = setInterval(countdown, 1000);
+
+    function buka_undangan() {
+      document.getElementById('semua_undangan_awal').id="semua_undangan_awal_buka";
+
+      document.getElementById('untuk_buka').style.display="block";
+      document.getElementById('kotak_waktu').id="kotak_waktu_muncul";
+      document.getElementById('ombak_kotak_waktu').id="ombak_kotak_waktu_muncul";
+
+      
+      function semua_undangan_awal_buka() {
+      var element = document.getElementById('semua_undangan_awal_buka');
+      if (element) {
+        element.remove();
+        document.getElementById('kedua_mempelai').id="kedua_mempelai_muncul";
+      }
+    }
+        setInterval(semua_undangan_awal_buka, 1000);
+
+
+    }
+  </script>
+  <script src="https://kit.fontawesome.com/3d5b751cd6.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="/js/index.js"></script>
+</body>
+</html>

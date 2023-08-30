@@ -1,0 +1,508 @@
+
+    #semua_undangan_awal{
+      display: none;
+    }
+    #semua_buka{
+      display: none;
+    }
+    .desktop{
+      display: block;
+    }
+    @media (max-width: 850px) {
+      .desktop{
+        display: none;
+      }
+      body {
+        font-family: 'Caveat', cursive;
+        background: linear-gradient(to bottom right, #709e65, #e8cc6e);
+        overflow-x: hidden;
+        background-attachment: fixed;
+      }
+      
+        .flower1_bagian_satu{
+          position: absolute;
+          width: 200px;
+          left: -35px;
+          top: -35px;
+          rotate: 120deg;
+        }
+        .flower1_bagian_dua{
+          position: absolute;
+          width: 200px;
+          right: -50px;
+          top: -35px;
+          rotate: 240deg;
+        }
+        /* untuk komentar */
+      
+        /* untuk komentar batsnya ------------- */
+      
+          .flower1_bagian_satu_buka{
+          position: absolute;
+          width: 200px;
+          left: -35px;
+          top: -35px;
+          rotate: 120deg;
+          animation: kotak_waktu_dan_ombak_kotak 2s ease forwards;
+      
+        }
+        #semua_undangan_awal{
+          display: block;
+        }
+        .flower1_bagian_dua_buka{
+          position: absolute;
+          width: 200px;
+          left: 0px;
+          bottom: 300px;
+          rotate: 0deg;
+          animation: kotak_waktu_dan_ombak_kotak 3s ease forwards;
+      
+        }
+        .flower1_bagian_tiga_buka{
+          position: absolute;
+          width: 120px;
+          left: 200px;
+          bottom: 300px;
+          rotate: 0deg;
+          animation: kotak_waktu_dan_ombak_kotak 4s ease forwards;
+      
+        }
+        .flower1_bagian_tiga{
+          position: absolute;
+          width: 200px;
+          left: -45px;
+          bottom: -45px;
+          rotate: 40deg;
+        }
+        .flower1_bagian_empat{
+          position: absolute;
+          width: 200px;
+          right: -50px;
+          bottom: -35px;
+          rotate: 320deg;
+        }
+        .fixed-notification {
+          position: fixed;
+          top: -100px; 
+          left: 50%; 
+          transform: translateX(-50%); 
+          z-index: 9999; 
+          transition: top 0.5s; 
+        }
+      
+        .show-notification {
+          top: 20px; 
+        }
+          .header {
+            text-align: center;
+            padding: 50px 0;
+          }
+        
+          .bride-groom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 0;
+          }
+        
+          .bride-groom img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+          }
+        
+          .content {
+            text-align: center;
+            padding: 20px;
+          }
+        
+          .title {
+            font-size: 50px;
+            color: #f7f7f7;
+          }
+        
+          .title_dua {
+            font-size: 80px;
+            color: #f7f7f7;
+          }
+        
+          .subtitle {
+            font-size: 18px;
+            color: #5d5d5d;
+            margin-bottom: 20px;
+          }
+        
+          .btn-open-invitation {
+            background-color: #8ed162;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+          }
+        
+          .btn-open-invitation:hover {
+            background-color: #8ed162;
+          }
+        
+          .btn-icon {
+            font-size: 24px;
+            margin-right: 10px;
+          }
+        
+          .navbar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #343a40;
+            border-radius: 50px;
+            padding: 10px 0;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+          }
+        
+          .navbar-item {
+            display: inline-block;
+            padding: 10px;
+            cursor: pointer;
+            color: #fff;
+            transition: transform 0.3s;
+          }
+        
+          .navbar-item:hover {
+            transform: scale(1.1);
+          }
+        
+          .navbar-icon {
+            font-size: 24px;
+          }
+          .modal-content {
+              background-color: #fff;
+              border-radius: 10px;
+            }
+             mark {
+              font-family: sans-serif;
+              position: relative;
+              color: white;
+              bottom: 30px;
+              background: linear-gradient(to bottom right, #709e65, #e8cc6e);
+              padding: 10px;
+              font-size: 20px;
+              border-radius: 10px;
+              box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            }
+          
+            p {
+              font-size: 140%;
+              font-family: sans-serif;
+              text-align: center;
+            }
+          
+            #kotak_waktu {
+              width: 100%;
+              height: 700px;
+              position: relative;
+              bottom: 800px;
+              background-color: #ebebeb;
+              padding: 20px;
+              margin: auto;
+              margin-top: 50px;
+            }
+            #kotak_doa {
+              width: 100%;
+              height: 400px;
+              position: relative;
+              top: 180px;
+              background: linear-gradient(to bottom, #ffffff, #f1dd9b);
+              padding: 20px;
+              border-radius: 10px;
+              margin: auto;
+              opacity: 0%;
+            }
+            #kotak_about {
+              width: 100%;
+              height: 1000px;
+              position: relative;
+              top: 100px;
+              background-color: #f8f8f8;
+            }
+            #kotak_resepsi_dan_akad {
+              width: 95%;
+              height: 700px;
+              position: relative;
+              top: 200px;
+              background-color: #f8f8f8;
+              border-radius: 20px;
+            }
+            #kotak_lokasi {
+              width: 95%;
+              height: 500px;
+              position: relative;
+              top: 240px;
+              border-radius: 0px;
+              background-color: #ffffff;
+            }
+            #kotak_turut_mengundang {
+              width: 95%;
+              height: 600px;
+              position: relative;
+              top: 240px;
+              border-radius: 0px;
+              background-color: #ffffff;
+            }
+            #ombak_kotak_waktu{
+              position: relative;
+              bottom: 750px;
+            }
+            #ombak_kotak_terimakasih{
+              position: relative;
+              top: 180px;
+            }
+            #kotak_waktu_muncul {
+              width: 100%;
+              height: 700px;
+              position: relative;
+              bottom: 55px;
+              margin: auto;
+              margin-top: 50px;
+              background-image:url("/img/flower1.png") ;
+              background-repeat: no-repeat;
+              background-size: 180px;
+              background-position: -130px -35px;
+              animation: kotak_waktu_dan_ombak_kotak 2s ease forwards;
+            }
+            #kotak_terimakasih{
+              width: 100%;
+              height: 200px;
+              position: relative;
+              top: 125px;
+              background-color: wheat;
+              margin: auto;
+              margin-top: 50px;
+              background-image:url("/img/flower1.png") ;
+              background-repeat: no-repeat;
+              background-size: 180px;
+              background-position: -130px -35px;
+            }
+            #lihat_lokasi{
+              bottom: 0px;
+              position: relative;
+              border-radius: 5px;
+              padding: 5px; 
+              background:#4c4c4c;
+              color: #e2e2e2;
+            }
+            #ombak_kotak_waktu_muncul{
+              position: relative;
+              animation: kotak_waktu_dan_ombak_kotak 2s ease forwards;
+            }
+            #kedua_mempelai{
+              position: relative;
+              top: 100px;
+            }
+            #semua_undangan_awal{
+              position: relative;
+            }
+            #kotak_komentar{
+              width: 95%;
+              background-color: #f8f8f8;
+              border-radius: 20px;
+            }
+            /* untuk animasi */
+            
+            #semua_undangan_awal_buka{
+              animation: semua_undangan_awal 1.5s ease forwards ;
+            }
+            #kedua_mempelai_muncul{
+              position: relative;
+              top: 40px;
+              animation: kedua_mempelai_muncul 2s ease forwards ;
+            }
+            #kotak_doa_muncul {
+              width: 90%;
+              height: 400px;
+              position: relative;
+              top: 0px;
+              background-color: white;
+              margin: auto;
+              opacity: 0%;
+              border-radius: 10px;
+              animation: kotak_doa_muncul 1s ease forwards ;
+            }
+            #kotak_about_muncul {
+              width: 100%;
+              height: 400px;
+              position: relative;
+              top: 100px;
+              background-color: #020202;
+              padding: 20px;
+              border-radius: 10px;
+              margin: auto;
+              opacity: 0%;
+              animation: kotak_about_muncul 1s ease forwards ;
+            }
+            #kotak_about_profile,
+            #kotak_about_mempelai,
+            #kotak_img_mempelai_cowo,
+            #kotak_foto_panggilan_mempelai_pria,
+            #kotak_nama_lengkap_mempelai_pria,
+            #kotak_putra_dari_mempelai_pria,
+            #kotak_nama_orangtua_dari_mempelai_pria,
+            #kotak_nama_instagram_dari_mempelai_pria,
+            #kotak_dan_dari_kedua_mempelai_pria,
+            #kotak_img_mempelai_wanita,
+            #kotak_foto_panggilan_mempelai_wanita,
+            #kotak_nama_lengkap_mempelai_wanita,
+            #kotak_putri_dari_mempelai_wanita,
+            #kotak_nama_orangtua_dari_mempelai_wanita,
+            #kotak_nama_instagram_dari_mempelai_wanita,
+            #kotak_tulisan_akad,
+            #kotak_gambar_akad,
+            #kotak_akad_hari,
+            #kotak_akad_tanggal,
+            #kotak_akad_jam,
+            #kotak_gambar_akad_tutup,
+            #kotak_tulisan_resepsi,
+            #kotak_gambar_resepsi,
+            #kotak_resepsi_hari,
+            #kotak_resepsi_tanggal,
+            #kotak_resepsi_jam,
+            #kotak_gambar_resepsi_tutup{
+              opacity: 0%;
+            }
+            #kotak_about_profile_muncul,
+            #kotak_about_mempelai_muncul,
+            #kotak_img_mempelai_cowo_muncul,
+            #kotak_foto_panggilan_mempelai_pria_muncul,
+            #kotak_nama_lengkap_mempelai_pria_muncul,
+            #kotak_putra_dari_mempelai_pria_muncul,
+            #kotak_nama_orangtua_dari_mempelai_pria_muncul,
+            #kotak_nama_instagram_dari_mempelai_pria_muncul,
+            #kotak_dan_dari_kedua_mempelai_pria_muncul,
+            #kotak_img_mempelai_wanita_muncul,
+            #kotak_foto_panggilan_mempelai_wanita_muncul,
+            #kotak_nama_lengkap_mempelai_wanita_muncul,
+            #kotak_putri_dari_mempelai_wanita_muncul,
+            #kotak_nama_orangtua_dari_mempelai_wanita_muncul,
+            #kotak_nama_instagram_dari_mempelai_wanita_muncul,
+            #kotak_tulisan_akad_muncul,
+            #kotak_gambar_akad_muncul,
+            #kotak_akad_hari_muncul,
+            #kotak_akad_tanggal_muncul,
+            #kotak_akad_jam_muncul,
+            #kotak_gambar_akad_tutup_muncul,
+            #kotak_tulisan_resepsi_muncul,
+            #kotak_gambar_resepsi_muncul,
+            #kotak_resepsi_hari_muncul,
+            #kotak_resepsi_tanggal_muncul,
+            #kotak_resepsi_jam_muncul,
+            #kotak_gambar_resepsi_tutup_muncul{
+              animation: bawah_ke_atas 1s ease forwards;
+            }
+            /* untuk keyframe */
+            @keyframes bawah_ke_atas {
+              0%{
+                transform: translate(0px,100px);
+                opacity: 0%;
+              }
+              100%{
+                opacity: 100%;
+                transform: translate(0px,0px);
+              }
+            }
+            @keyframes kotak_doa_muncul {
+              0%{
+              transform: translate(0px,-100px);
+              opacity: 0%;
+              }
+              100%{
+              transform: translate(0px,0px);
+              opacity: 100%;
+              }
+            }
+      
+            @keyframes semua_undangan_awal {
+              0%{
+              transform: translate(0px,0px);
+              }
+              100%{
+              transform: translate(0px,-1000px);
+              }
+            }
+            @keyframes kedua_mempelai_muncul {
+              0%{
+                  transform: translate(-300px,0px);
+                  opacity: 0%;
+              }
+              50%{
+              }
+              100%{
+                  transform: translate(0px,0px);
+                  opacity: 100%;
+              }
+            }
+            @keyframes kotak_waktu_dan_ombak_kotak {
+              0%{
+                  opacity: 0%;
+                  transform: translate(0px,100px);
+              }
+              50%{
+                  opacity: 0%;
+                  transform: translate(0px,100px);
+              }
+              100%{
+                  opacity: 100%;
+                  transform: translate(0px,0px);
+              }
+            }
+      /* Adjustments for mobile devices */
+      .header {
+        padding: 20px 0;
+      }
+      
+      .bride-groom img {
+        width: 100px;
+        height: 100px;
+      }
+  
+      .content {
+        padding: 10px;
+      }
+  
+      .title {
+        font-size: 30px;
+      }
+  
+      .title_dua {
+        font-size: 50px;
+      }
+  
+      .subtitle {
+        font-size: 20px;
+      }
+  
+      .btn-open-invitation {
+        padding: 8px 15px;
+        font-size: 20px;
+      }
+  
+      .navbar {
+        bottom: 0;
+      }
+  
+      .navbar-item {
+        padding: 8px;
+      }
+  
+      .navbar-icon {
+        font-size: 20px;
+      }
+    }
+    @media (max-width: 320px) {
+
+    }

@@ -1,0 +1,39 @@
+<!-- testing.ejs -->
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code  WhatsApp APAAIIIIII</title>
+  </head>
+  <body>
+      <center>
+    <H1>WhatsApp API By MOZA</H1>
+    <H4>Untuk Kirim Pesan Scan Qr Ini </H4>
+    <div class="kotak">
+    <pre><%= qr %></pre>
+  </div>
+  <a href="/home">Back Home</a>
+</center>
+    <style>
+      .kotak{
+        position: relative;
+        width: 500px;
+        height: 430px;
+        background: rgb(156, 241, 170);
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+      }
+    h1{font-family: sans-serif;}
+        pre{
+            position: relative;
+        }
+        @media only screen and (min-width: 600px) {
+          h1,h4{
+            position: relative;
+        }
+        }
+    </style>
+    
+  </body>
+</html>
