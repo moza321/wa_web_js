@@ -33,11 +33,17 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+// String koneksi MongoDB Atlas
+const uri = "mongodb+srv://MOZAACHMADDANI:02188881019@cluster0.q9565ii.mongodb.net/wa_api";
 
-// Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/wa_api', { useNewUrlParser: true, useUnifiedTopology: true,});
-const db = mongoose.connection;
+// Opsi koneksi Mongoose
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 
+// Buat koneksi Mongoose
+mongoose.connect(uri, options)
 
 //tempat untuk scemha -----------------------------------------------------
 

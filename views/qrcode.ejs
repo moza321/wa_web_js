@@ -1,39 +1,68 @@
 <!-- testing.ejs -->
+<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code  WhatsApp APAAIIIIII</title>
-  </head>
-  <body>
-      <center>
-    <H1>WhatsApp API By MOZA</H1>
-    <H4>Untuk Kirim Pesan Scan Qr Ini </H4>
-    <div class="kotak">
-    <pre><%= qr %></pre>
-  </div>
-  <a href="/home">Back Home</a>
-</center>
+    <title>QR Code WhatsApp</title>
     <style>
-      .kotak{
-        position: relative;
-        width: 500px;
-        height: 430px;
-        background: rgb(156, 241, 170);
-        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
--webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-      }
-    h1{font-family: sans-serif;}
-        pre{
-            position: relative;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f2f2f2;
         }
+
+        .container {
+            max-width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .subheader {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .qr-code {
+            background: rgb(156, 241, 170);
+            box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+            -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .back-link {
+            display: block;
+            font-size: 16px;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #333;
+        }
+
         @media only screen and (min-width: 600px) {
-          h1,h4{
-            position: relative;
-        }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+            }
         }
     </style>
-    
-  </body>
+</head>
+<body>
+    <div class="container">
+        <div class="header">WhatsApp</div>
+        <div class="subheader">Untuk Kirim Pesan Scan Qr Ini</div>
+        <div class="qr-code"><pre><%= qr %></pre></div>
+        <a href="/home" class="back-link">Back Home</a>
+    </div>
+</body>
 </html>

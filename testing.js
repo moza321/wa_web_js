@@ -33,11 +33,14 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+const uri = "mongodb+srv://MOZAACHMADDANI:02188881019@cluster0.q9565ii.mongodb.net/wa_api";
 
-// Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/wa_api', { useNewUrlParser: true, useUnifiedTopology: true,});
-const db = mongoose.connection;
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 
+mongoose.connect(uri, options)
 
 //tempat untuk scemha -----------------------------------------------------
 
@@ -195,14 +198,20 @@ app.get('/qrcode', async (req, res) => {
     const db_data = await akun_data.findOne({ Nama: req.session.nama, Username: req.session.username, Password: req.session.password }, "Nama Username Password").exec();
     
     if (db_data) {
-      const { EventEmitter } = require('events');
-      EventEmitter.defaultMaxListeners = 1;
+      //const { EventEmitter } = require('events');
+      //EventEmitter.defaultMaxListeners = 1;
 
       const client = new Client({
-        authStrategy: new NoAuth()
+        authStrategy: new NoAuth(),
+        puppeteer :{
+          args:[
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+          ]
+        }
       });
       let textToEncode;
-  
+  /*
       const waitForQrCode = new Promise(resolve => {
         client.on('qr', qr => {
           textToEncode = qr;
@@ -215,6 +224,15 @@ app.get('/qrcode', async (req, res) => {
           res.render("qrcode", {
             qr: qrcode,
             text_qr: enteredQrCode
+          });
+        });
+      });*/
+
+      client.on('qr', qr => {
+        QRCode.generate(qr, { small: true, width: 8000 }, (qrcode) => {
+          res.render("qrcode", {
+            qr: qrcode,
+            text_qr: qr
           });
         });
       });
