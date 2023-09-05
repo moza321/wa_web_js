@@ -139,11 +139,25 @@ app.post('/upload', upload.single('vcfFile'), (req, res) => {
       const [lastName, firstName] = line.substring(2).split(';');
       vcfData[vcfData.length - 1].lastName = lastName;
       vcfData[vcfData.length - 1].firstName = firstName;
-    } else if (line.startsWith('TEL')) {
+    }else if (line.startsWith('TEL')) {
       const phoneNumber = line.substring(9);
-      vcfData[vcfData.length - 1].phoneNumber = hilangkan_huruf_di_string(phoneNumber);
-
+      const cleanedNumber = phoneNumber.replace(/\D/g, ''); // Menghapus semua karakter non-digit
+    
+      let nomer_substring;
+    
+      // Menghilangkan angka '2' jika nomor dimulai dengan '0' atau '+62'
+      if (cleanedNumber.startsWith('0') || cleanedNumber.startsWith('62')) {
+        nomer_substring = cleanedNumber.replace(/^0+|^62+/, ''); // Menghapus awalan '0' atau '62'
+        nomer_substring = nomer_substring.replace(/^2+/, ''); // Menghapus angka '2' pertama (jika ada)
+      } else {
+        nomer_substring = cleanedNumber; // Menggunakan nomor asli jika tidak ada awalan yang sesuai
+      }
+    
+      console.log(nomer_substring);
+      vcfData[vcfData.length - 1].phoneNumber = nomer_substring;
     }
+    
+    
     else{
       vcfData[vcfData.length - 1].sebagai = "Tamu Undangan";
       vcfData[vcfData.length - 1].nama_akun = req.session.nama;
@@ -198,8 +212,8 @@ app.get('/qrcode', async (req, res) => {
     const db_data = await akun_data.findOne({ Nama: req.session.nama, Username: req.session.username, Password: req.session.password }, "Nama Username Password").exec();
     
     if (db_data) {
-      //const { EventEmitter } = require('events');
-      //EventEmitter.defaultMaxListeners = 1;
+      const { EventEmitter } = require('events');
+      EventEmitter.defaultMaxListeners = 1;
 
       const client = new Client({
         authStrategy: new NoAuth(),
