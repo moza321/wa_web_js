@@ -1,0 +1,37 @@
+/* Mengatur elemen .undangan agar konten di dalamnya berada di tengah */
+body {
+    background-image: url('/img/background.jpg'); /* Ganti 'background.jpg' dengan nama gambar Anda */
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 360px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Mengatur card undangan */
+.undangan-card {
+    background-color: rgba(255, 255, 255, 0.2); /* Menambahkan latar belakang semi-transparan */
+    border: none; /* Menghapus border card */
+    box-shadow: none; /* Menghapus shadow card */
+    color: aliceblue;
+}
+
+/* Mengatur tombol agar tampil di bawah teks */
+.undangan-card .btn {
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px; /* Jarak antara teks dan tombol */
+}
+#playButton{
+    position: fixed; bottom: 50px; left: 0px; font-size: 30px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+  }
+  #notification {
+    position: fixed;
+    top: 0;
+    right: 50px;
+    z-index: 1000; /* Atur z-index sesuai kebutuhan */
+    /* Tambahkan properti CSS lain yang sesuai dengan desain Anda */
+}

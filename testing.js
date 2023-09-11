@@ -54,6 +54,14 @@ const S_komentar = new mongoose.Schema({
 
 const kirim_komentar = mongoose.model('komentar', S_komentar);
 
+// Create a schema for konfirmasi kehadiran
+const konfirmasi = new mongoose.Schema({
+  konfirmasi:String,
+  nama:String
+});
+
+const konfirmasi_kehadiran = mongoose.model('konfirmasi_kehadiran', konfirmasi);
+
 // Create a schema for storing VCF data
 const vcfSchema = new mongoose.Schema({
   firstName: String,
@@ -418,7 +426,8 @@ app.get('/pandding_kirim/:id/edit_pandding', async(req,res)=>{
   if(req.session.status=="login"){
     const db_data = await akun_data.findOne({Nama:req.session.nama,Username:req.session.username,Password:req.session.password},"Nama Username Password").exec();
     const db_data_kontak = await VCF.find({nama_akun:req.session.nama,status:"belum_siap_kirim"},"nama_akun firstName lastName phoneNumber sebagai").exec();
-
+    const itemsPerPage = 10;
+    const initialData = db_data_kontak.slice(0, itemsPerPage);
     
     if(db_data){
       res.render("pandding_kirim",{
@@ -426,7 +435,7 @@ app.get('/pandding_kirim/:id/edit_pandding', async(req,res)=>{
         username:req.session.username,
         password:req.session.password,
         status_login:req.session.status,
-        db_data_kontak:db_data_kontak                   
+        db_data_kontak:initialData                  
         });
     }
     else{
@@ -443,7 +452,8 @@ app.get('/siap_kirim', async(req,res)=>{
   if(req.session.status=="login"){
     const db_data = await akun_data.findOne({Nama:req.session.nama,Username:req.session.username,Password:req.session.password},"Nama Username Password").exec();
     const db_data_kontak = await VCF.find({nama_akun:req.session.nama,status:"sudah_siap_kirim"},"nama_akun firstName lastName phoneNumber sebagai").exec();
-
+    const itemsPerPage = 10;
+    const initialData = db_data_kontak.slice(0, itemsPerPage);
     
     if(db_data){
       res.render("siap_kirim",{
@@ -451,7 +461,7 @@ app.get('/siap_kirim', async(req,res)=>{
         username:req.session.username,
         password:req.session.password,
         status_login:req.session.status,
-        db_data_kontak:db_data_kontak                   
+        db_data_kontak:initialData                  
         });
     }
     else{
@@ -504,7 +514,50 @@ app.get('/undangan', async (req, res) => {
   }
 });
 
+app.get('/fiorentina&fachri', async (req, res) => {
+  const { v } = req.query;
+  const id = v;
+  const hadir = { konfirmasi: "hadir" };
+  const tidak_hadir = { konfirmasi: "tidak_hadir" };
+
+    const jumlah_hadir = await konfirmasi_kehadiran.countDocuments(hadir);
+    const jumlah_tidak_hadir = await konfirmasi_kehadiran.countDocuments(tidak_hadir);
+
+  try{
+  if (id) {
+    const db_data_kontak = await VCF.findOne({_id:id }, " nama_akun firstName lastName phoneNumber sebagai").exec();
+    const db_data_komentar = await kirim_komentar.find({}, "nama_akun komentar tanggal").sort({ tanggal: -1, _id: -1 }).exec();
+    if (db_data_kontak) {
+      const id_to_string = db_data_kontak._id.toString();
+      const data_id = id_to_string.match(/[a-fA-F0-9]{24}/)[0];
+      const qrData = db_data_kontak.firstName;
+      if (id == data_id) {
+        qr.toDataURL(qrData, (err, url) => {
+          if (err) throw err;
       
+          res.render("undangan2", {
+            db_data_kontak: db_data_kontak,
+            qr_undangan:url,
+            db_data_komentar: db_data_komentar,
+            db_data_jumlah_hadir:jumlah_hadir,
+            db_data_jumlah_tidak_hadir:jumlah_tidak_hadir
+          });
+        });
+      } else {
+        res.render("tidak_di_undang");
+      }
+    } else {
+      res.render("tidak_di_undang");
+    }
+  } else {
+    res.render("tidak_di_undang");
+  }
+}
+  catch(error){
+    res.render("tidak_di_undang");
+  }
+});
+
 app.put('/edit_kirim/:id_edit', async (req, res) => {
   try {
     const { id_edit } = req.params;
@@ -565,20 +618,16 @@ app.put('/hapus_kontak/:id_hapus_kontak', async (req, res) => {
 });
 
 app.put('/undangan/komentar', async (req, res) => {
-    const { komentar,nama } = req.body;
+    const { komentar,nama,waktu } = req.body;
     console.log(req.body);
 
     //untuk waktu------------
-    const currentTime = new Date();
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-    const formattedTime = currentTime.toLocaleDateString('en-US', options);
-    console.log(formattedTime);
     //batasnya ------------
 
     const data_komentar = new kirim_komentar({
       nama_akun: nama,
       komentar: komentar,
-      tanggal: formattedTime
+      tanggal: waktu
     });
     data_komentar.save();
     const respon = {new:true}
@@ -616,6 +665,92 @@ app.put('/tambahkan_data_kontak', async (req, res) => {
   })
 
 });
+// Route for loading more data
+app.get('/belum_siap_kirim_load', async (req, res) => {
+  const itemsPerPage = 10;
+  // Get the current page from the query parameter (default to page 1)
+  const page = parseInt(req.query.page) || 1;
+
+  // Calculate the starting and ending indices for the current page
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const db_data_kontak = await VCF.find({nama_akun:req.session.nama,status:"belum_siap_kirim"},"nama_akun firstName lastName phoneNumber sebagai").exec();
+
+  // Get the data to load for the current page
+  const currentData = db_data_kontak.slice(startIndex, endIndex);
+  res.json(currentData);
+});
+
+
+app.get('/belum_siap_kirim_search', async (req, res) => {
+  const keyword = req.query.keyword;
+
+  // Lakukan pencarian berdasarkan keyword di database
+  const searchResults = await VCF.find({
+    $or: [
+      { firstName: { $regex: keyword, $options: 'i' } }, // Pencarian nama yang cocok
+      { lastName: { $regex: keyword, $options: 'i' } },  // Pencarian nama belakang yang cocok
+    ],
+    nama_akun: req.session.nama,
+    status: "belum_siap_kirim"
+  }).exec();
+
+  // Kirim hasil pencarian sebagai respons dalam format JSON
+  res.json(searchResults);
+});
+
+
+// Route for loading more data
+app.get('/sudah_siap_kirim_load', async (req, res) => {
+  const itemsPerPage = 10;
+  // Get the current page from the query parameter (default to page 1)
+  const page = parseInt(req.query.page) || 1;
+
+  // Calculate the starting and ending indices for the current page
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const db_data_kontak = await VCF.find({nama_akun:req.session.nama,status:"sudah_siap_kirim"},"nama_akun firstName lastName phoneNumber sebagai").exec();
+
+  // Get the data to load for the current page
+  const currentData = db_data_kontak.slice(startIndex, endIndex);
+  res.json(currentData);
+});
+
+
+app.get('/sudah_siap_kirim_search', async (req, res) => {
+  const keyword = req.query.keyword;
+
+  // Lakukan pencarian berdasarkan keyword di database
+  const searchResults = await VCF.find({
+    $or: [
+      { firstName: { $regex: keyword, $options: 'i' } }, // Pencarian nama yang cocok
+      { lastName: { $regex: keyword, $options: 'i' } },  // Pencarian nama belakang yang cocok
+    ],
+    nama_akun: req.session.nama,
+    status: "sudah_siap_kirim"
+  }).exec();
+
+  // Kirim hasil pencarian sebagai respons dalam format JSON
+  res.json(searchResults);
+});
+
+
+
+app.put('/konfirmasi_kehadiran', async (req, res) => {
+  const { konfirmasi,nama} = req.body;
+  console.log(req.body);
+
+  const data_konfirmasi = new konfirmasi_kehadiran({
+    konfirmasi:konfirmasi,
+    nama:nama
+  });
+  data_konfirmasi.save();
+  const respon = {new:true}
+
+  res.json(respon);
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

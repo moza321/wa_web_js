@@ -12,6 +12,12 @@
       .desktop{
         display: none;
       }
+      #playButton{
+        position: fixed; bottom: 50px; left: 0px; font-size: 30px;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+      }
       body {
         font-family: 'Caveat', cursive;
         background: linear-gradient(to bottom right, #709e65, #e8cc6e);
@@ -213,6 +219,11 @@
               margin: auto;
               margin-top: 50px;
             }
+            .custom-card {
+              display: inline-block;
+              width: 100px;
+              margin-right: 0px; /* Untuk memberikan jarak antara card */
+          }
             #kotak_doa {
               width: 100%;
               height: 400px;
@@ -223,6 +234,17 @@
               border-radius: 10px;
               margin: auto;
               opacity: 0%;
+            }
+            #kotak_kehadiran{
+              width: 100%;
+              height: 400px;
+              position: relative;
+              top: 180px;
+              background: white;
+              padding: 20px;
+              border-radius: 10px;
+              margin: auto;
+              opacity: 100%;
             }
             #kotak_about {
               width: 100%;

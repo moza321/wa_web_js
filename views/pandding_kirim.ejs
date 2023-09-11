@@ -15,7 +15,6 @@
 <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
 <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-
 <div class="grey-bg container-fluid">
   <section id="minimal-statistics">
     <div class="row">
@@ -121,7 +120,10 @@
 
   </div>
   
-  <input type="text" id="searchInput" onkeyup="searchAndDisplay()" placeholder="Search">
+  <input type="text" id="searchInput" placeholder="Masukkan kata kunci pencarian">
+  <button id="searchButton">Cari</button>
+
+
   <section id="kotak">
   <% db_data_kontak.forEach(VCF => { %>
     <div id="<%= VCF._id %>" class="container mt-3">
@@ -212,6 +214,7 @@
         </div>
       </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
   window.addEventListener("load", function () {
     const overlay = document.querySelector(".overlay");
@@ -382,21 +385,6 @@
         });
       }
 
-// untuk sercing-------------------------------------------
-
-function searchAndDisplay() {
-  const searchInput = document.getElementById('searchInput').value.toLowerCase();
-  const nama = document.querySelectorAll('.container');
-
-  nama.forEach(nama => {
-    const headingText = nama.textContent.toLowerCase();
-    if (headingText.includes(searchInput)) {
-      nama.style.display = 'block';
-    } else {
-      nama.style.display = 'none';
-    }
-  });
-}
 
 // tambah data -----------------------
 
@@ -522,18 +510,164 @@ function tambah_kontak() {
         });
       }
 
+
+      
+      let page = 2;
+    let loading = false;
+
+    function loadMoreData() {
+  if (!loading) {
+    loading = true;
+    fetch(`/belum_siap_kirim_load?page=${page}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          data.forEach(VCF => {
+            // Tambahkan elemen baru ke dalam #kotak
+            const htmlTemplate = `
+            <div id="${ VCF._id }" class="container mt-3">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5>${ VCF.firstName +" "+ VCF.lastName }</h5>
+          <button type="button" class="close" aria-label="Close" onclick="Hapus_kontak('${ VCF._id }')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="card-body">
+          <form class="editForm">
+            <div class="form-group">
+              <label>Nama</label>
+              <div class="nama">
+              <input class="form-control" type="text" value="${ VCF.firstName }" id="name_${ VCF._id }" placeholder="Masukkan Nama">
+            </div>
+            </div>
+            <div class="form-group">
+              <label>Nomor Telepon</label>
+              <input type="tel" value="${ VCF.phoneNumber }" class="form-control" id="phone_${ VCF._id }" placeholder="Masukkan Nomor Telepon">
+            </div>
+            <div class="form-group">
+              <label>Sebagai Apa</label>
+              <select class="form-control" id="role_${ VCF._id }" required>
+                <option value="${ VCF.sebagai }">default ( ${ VCF.sebagai } )</option>
+                <option value="Tamu Undangan">Tamu Undangan</option>
+                <option value="Besan">Besan</option>
+                <option value="Saksi">Saksi</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="updateData('${ VCF._id }')">Save</button>
+            <button type="button" class="btn btn-success" onclick="Send_Pandding('${ VCF._id }')">Undang Pandding</button>
+          </form>
+        </div>
+      </div>
+    </div>
+            `;
+            $('#kotak').append(htmlTemplate);
+          });
+          page++;
+        }
+        loading = false;
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan:', error);
+        loading = false;
+      });
+  }
+}
+
+
+    $(document).ready(function () {
+      // Load more data when scrolling to the bottom
+      $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+          loadMoreData();
+        }
+      });
+    });
+
+
+    document.getElementById("searchButton").addEventListener("click", function () {
+  // Ambil kata kunci pencarian dari input teks
+  const searchKeyword = document.getElementById("searchInput").value;
+
+  // Lakukan pencarian berdasarkan kata kunci
+  cariData(searchKeyword);
+});
+
+// untuk pencarian
+function cariData(keyword) {
+  // Hapus semua anak-anak elemen dalam #kotak
+  $('#kotak').empty();
+
+  // URL untuk pencarian, ganti sesuai dengan URL sebenarnya
+  const searchUrl = `/belum_siap_kirim_search?keyword=${encodeURIComponent(keyword)}`;
+
+  // Lakukan permintaan HTTP GET menggunakan fetch
+  fetch(searchUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Terjadi kesalahan');
+      }
+      return response.json(); // Gunakan response.json() untuk mengambil data JSON
+    })
+    .then(data => {
+      data.forEach(VCF => {
+        // Tambahkan elemen baru ke dalam #kotak
+        const htmlTemplate = `
+            <div id="${ VCF._id }" class="container mt-3">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5>${ VCF.firstName +" "+ VCF.lastName }</h5>
+          <button type="button" class="close" aria-label="Close" onclick="Hapus_kontak('${ VCF._id }')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="card-body">
+          <form class="editForm">
+            <div class="form-group">
+              <label>Nama</label>
+              <div class="nama">
+              <input class="form-control" type="text" value="${ VCF.firstName }" id="name_${ VCF._id }" placeholder="Masukkan Nama">
+            </div>
+            </div>
+            <div class="form-group">
+              <label>Nomor Telepon</label>
+              <input type="tel" value="${ VCF.phoneNumber }" class="form-control" id="phone_${ VCF._id }" placeholder="Masukkan Nomor Telepon">
+            </div>
+            <div class="form-group">
+              <label>Sebagai Apa</label>
+              <select class="form-control" id="role_${ VCF._id }" required>
+                <option value="${ VCF.sebagai }">default ( ${ VCF.sebagai } )</option>
+                <option value="Tamu Undangan">Tamu Undangan</option>
+                <option value="Besan">Besan</option>
+                <option value="Saksi">Saksi</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="updateData('${ VCF._id }')">Save</button>
+            <button type="button" class="btn btn-success" onclick="Send_Pandding('${ VCF._id }')">Undang Pandding</button>
+          </form>
+        </div>
+      </div>
+    </div>
+            `;
+        $('#kotak').append(htmlTemplate);
+      });
+    })
+    .catch(error => {
+      console.error('Terjadi kesalahan:', error);
+    });
+}
+
+
+
     </script>
-    
 
 
+</body>
+</html>
 <!-- batas isi konten -->
-    <script src="https://kit.fontawesome.com/3d5b751cd6.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
     
-</body>
-</html>

@@ -1,0 +1,10 @@
+<% if (books.length > 0) { %>
+    <h2>Hasil Pencarian:</h2>
+    <ul>
+        <% books.forEach(function (book) { %>
+            <li><%= book.title %> oleh <%= book.author %></li>
+        <% }); %>
+    </ul>
+<% } else { %>
+    <p>Tidak ada hasil yang ditemukan.</p>
+<% } %>
