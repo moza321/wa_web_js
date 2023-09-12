@@ -132,7 +132,6 @@
                         <img  src="img/fachri.png" alt="Foto Profil" class="img-fluid rounded-circle">
                         <p style="font-family: sans-serif; font-style: italic;">Muhammad Fachri Baharsyah S.T</p>
                         <p>Putra Ke 1 Bapak Kasino & Ibu Dwi Setyowati</p>
-                        <p>(Toko Regulator)</p>
                         <!-- Akhir elemen undangan -->
                     </div>
                 </div>
@@ -156,9 +155,9 @@
                 <br>
                 <div class="card undangan-card mx-auto" style="background:#525a54;">
                     <div class="card-body text-center">
-                        <p style="text-align: left;">Turut Mengundang:</p>
+                      <p style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;">Turut Mengundang</p>
                         <p style="text-align: left;"> Bpk Ahmad Supandi</span> (Sesepuh)</p>
-                        <p style="text-align: left;"> Ust Hanifah</span> (Guru)</p>
+                        <p style="text-align: left;"> Ust Abu Hanifah</span> (Guru)</p>
                         <p style="text-align: left;"> Bpk Andi Kusmana,S.H</span> (Ketua Rw 032)</p>
                         <p style="text-align: left;"> Bpk Suryanto,S.E</span> (Ketua Rw 039)</p>
                         <p style="text-align: left;"> Bpk Achmad Rifai </span> (Ketua Rt 01 Rw 039)</p>
@@ -205,7 +204,6 @@
                                     <span style="color: white;">
                                         <i class="fa-solid fa-clock"></i>&nbsp;<span class="tanggal"><%=kirim_komentar.tanggal%></span>
                                     </span>
-                                    <br>
                                     <span style="color:white; white-space: pre-line;">
                                         <%= kirim_komentar.komentar %>
                                       </span>
@@ -219,7 +217,6 @@
                 </div>
             </div>
         </div>
-    </div>
     
   
     <div class="col-md-6" style="position: relative; top: 0px;">
@@ -234,12 +231,29 @@
         </div>
       </div>
     </div>
-    <svg id="ombak_kotak_terimakasih" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,64L48,106.7C96,149,192,235,288,224C384,213,480,107,576,58.7C672,11,768,21,864,58.7C960,96,1056,160,1152,181.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
-      <div id="kotak_terimakasih" style="  background: white">
-        <img style="width: 250px;" src="/img/fiodanfachri.png" alt="">
-    </div>
-  
+
     
+    <div class="card undangan-card mx-auto" style=" position: relative; margin-top: 70px; background-image: url('/img/background.jpg'); max-width: 420px;">
+        <div class="card-body text-center">
+          <p style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;">doa untuk pengantin</p>
+          <p>بَارَكَ اللهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِى خَيْرٍ</p>
+          <p>"Semoga Allah memberkahimu di waktu bahagia dan memberkahimu di waktu susah dan semoga Allah menyatukan kalian berdua dalam kebaikan."</p>
+          <p>-HR. Abu Dawud No. 2130-</p>
+        </div>
+    </div>
+
+
+        <div class="card undangan-card mx-auto" style=" position: relative; background-image: url('/img/background_2.jpg'); max-width: 420px;"">
+        <div class="card-body text-center">
+          <p style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;">Teruntuk <%= db_data_kontak.firstName %></p>
+          <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bpk/Ibu Saudara/i berkenan hadir untuk memberikan do'a restu. Atas kehadiran Bpk/Ibu Saudara/i kami ucapkan terima kasih.</p>
+          <p style="font-family: sans-serif; font-style: italic;">wassalamualaikum Warahmatullahi Wabarakatuh</p>
+          <p style="font-family: 'Ysabeau SC', sans-serif; font-size: 20px;">Turut berbahagia, segenap keluarga besar:</p>
+          <img style="width: 250px;" src="/img/fiodanfachri.png" alt="">
+
+        </div>
+    </div>
+      
       <audio id="backgroundMusic" loop autoplay>
         <source src="audio/murotal.mp3" type="audio/mpeg" autoplay="true"
         muted="muted">
@@ -262,7 +276,6 @@ function buka_maps() {
 window.onload = function() {
         const elementsWithClass = document.getElementsByClassName('tanggal');
 const count = elementsWithClass.length;
-console.log(count);
 
 for (var i = 0; i < count; i++) {
   var tanggal = elementsWithClass[i].textContent; // Menggunakan elementsWithClass[i]
@@ -366,7 +379,7 @@ for (var i = 0; i < count; i++) {
 // untuk hitung mundur-------------------
 const currentTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
 
-const targetTime = new Date('2023-10-21T09:00:00').toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
+const targetTime = new Date('2023-10-01T09:00:00').toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
 
 const timeDifference = new Date(targetTime) - new Date(currentTime);
 
@@ -408,7 +421,7 @@ const secondsDifference = Math.floor(timeDifference / 1000);
     body.style.backgroundImage = "none";
 
     // Mengatur warna latar belakang (background color) menjadi merah
-    body.style.backgroundColor = "white"; // Ganti dengan warna yang diinginkan
+    body.style.backgroundColor = "#dbdbdb"; // Ganti dengan warna yang diinginkan
 }
 
 
