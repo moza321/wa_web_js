@@ -284,29 +284,41 @@ app.get('/qrcode', async (req, res) => {
         for (var nomor = 0; nomor < nomer_telephone.length; nomor++) {
 var chatId = nomer_telephone[nomor] + "@c.us";
 var link = `ini adalah link Undangan Untuk Bapak/Ibu *${nama_kontak[nomor]}*
-http://localhost:3000/undangan?v=${id_kontak}`;
-var textId = `Assalamualaikum Wr.wb Hallo *${nama_kontak[nomor]}*,
-        
-Kami dengan sukacita ingin mengundang Bpk/Ibu *${nama_kontak[nomor]}* untuk hadir dan berbagi kebahagiaan dalam pernikahan kami!
+https://undanganelektronik.xyz/fiorentina&fachri?v=${nama_kontak[nomor]}`;
+var textId = `💌 Undangan Walimatul 'Ursy
+Ykh. 
+*${nama_kontak[nomor]}*
+____________________
 
+Bismillahirrahmanirrahim
 
-Acara pernikahan kami, Fachri & Fioorentina, akan dilaksanakan pada:
-                  
-📅 Hari Dan Tanggal: Senin , 1 Oktober 2023
-⏰ Pukul Akad: 09:00 WIB
-⏰ Pukul Resepsi: 11:00 WIB       
-📍 Lokasi: Jl Taman Elok
+Assalamu'alaikum warahmatullahi wabarakatuh
 
-                  
-Kami sangat berharap Bapak/Ibu *${nama_kontak[nomor]}* dapat bergabung dalam momen istimewa ini. Kehadiran Bapak/Ibu *${nama_kontak[nomor]}* adalah anugerah yang sangat berarti bagi kami.
-Terima kasih atas perhatian dan doa yang Bapak/Ibu *${nama_kontak[nomor]}* berikan. Kami nantikan kehadiran Bapak/Ibu *${nama_kontak[nomor]}*
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i *${nama_kontak[nomor]}* untuk menghadiri acara Walimatul 'Ursy Sesi 2 (jam 09.00-11.00) Pernikahan kami
+ 
+Fio Rentina Azzahra S.H
+bin Suwarno
+                 &
+Muhammad Fachri Baharsyah S.T 
+bin Kasino
 
-Salam hangat,
+Link Undangan
+Untuk info lengkap acara, silakan kunjungi link berikut:
+
+https://undanganelektronik.xyz/fiorentina&fachri?v=${nama_kontak[nomor]}
+
+Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i *${nama_kontak[nomor]}* berkenan untuk hadir dan memberikan doa restu.
+
+Mohon maaf perihal undangan hanya dibagikan melalui pesan ini.
+
+Atas perhatiannya kami ucapkan Jazaakumullaah khairaa..
+
+Wassalamu'alaikum warahmatullahi wabarakaatuh
 ${req.session.nama}`;
           
           // Sending message.
-          client.sendMessage(chatId, link);
-          client.sendMessage(chatId, textId);
+          client.sendMessage("62"+chatId, link);
+          client.sendMessage("62"+chatId, textId);
 
         }
       });
@@ -516,47 +528,28 @@ app.get('/undangan', async (req, res) => {
 
 app.get('/fiorentina&fachri', async (req, res) => {
   const { v } = req.query;
-  const id = v;
+  const nama = v;
   const hadir = { konfirmasi: "hadir" };
   const tidak_hadir = { konfirmasi: "tidak_hadir" };
 
     const jumlah_hadir = await konfirmasi_kehadiran.countDocuments(hadir);
     const jumlah_tidak_hadir = await konfirmasi_kehadiran.countDocuments(tidak_hadir);
 
-  try{
-  if (id) {
-    const db_data_kontak = await VCF.findOne({_id:id }, " nama_akun firstName lastName phoneNumber sebagai").exec();
     const db_data_komentar = await kirim_komentar.find({}, "nama_akun komentar tanggal").sort({ tanggal: -1, _id: -1 }).exec();
-    if (db_data_kontak) {
-      const id_to_string = db_data_kontak._id.toString();
-      const data_id = id_to_string.match(/[a-fA-F0-9]{24}/)[0];
-      const qrData = db_data_kontak.firstName;
-      if (id == data_id) {
+      const qrData = nama;
         qr.toDataURL(qrData, (err, url) => {
-          if (err) throw err;
       
           res.render("undangan2", {
-            db_data_kontak: db_data_kontak,
+            nama: nama,
             qr_undangan:url,
             db_data_komentar: db_data_komentar,
             db_data_jumlah_hadir:jumlah_hadir,
             db_data_jumlah_tidak_hadir:jumlah_tidak_hadir
           });
         });
-      } else {
-        res.render("tidak_di_undang");
-      }
-    } else {
-      res.render("tidak_di_undang");
-    }
-  } else {
-    res.render("tidak_di_undang");
-  }
-}
-  catch(error){
-    res.render("tidak_di_undang");
-  }
-});
+
+    
+      });
 
 app.put('/edit_kirim/:id_edit', async (req, res) => {
   try {
