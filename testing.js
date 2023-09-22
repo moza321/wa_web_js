@@ -89,6 +89,15 @@ const akun_data = mongoose.model('akun', akun);
 
 // untuk function ----------------------------------------------------
 
+
+// untuk sapasi di aganti ke %20
+function spasikelink(input) {
+  // Gunakan fungsi replace dengan regex untuk menggantikan spasi dengan '%20'
+  return input.replace(/ /g, '%20');
+}
+
+
+
 //untuk tanpa angka di string
 function hilangkan_huruf_di_string(str) {
   // Gunakan regular expression untuk memfilter angka-angka saja
@@ -268,13 +277,15 @@ app.get('/qrcode', async (req, res) => {
         console.log('Sending messages...');
         const db_data_kontak = await VCF.find({ nama_akun: req.session.nama ,status:"sudah_siap_kirim" }, "nama_akun firstName lastName phoneNumber sebagai").exec();
         var nomer_telephone = [];
-        var nama_kontak = [];
+        var nama_depan_kontak = [];
+        var nama_belakang_kontak=[];
         var id_kontak = [];
 
         
         for (const tamu of db_data_kontak) {
             nomer_telephone.push(tamu.phoneNumber); // Menambahkan nomor telepon ke array
-            nama_kontak.push(tamu.firstName); // Menambahkan nomor telepon ke array
+            nama_depan_kontak.push(tamu.firstName); // Menambahkan nomor telepon ke array
+            nama_belakang_kontak.push(tamu.lastName);
             id_kontak.push(tamu._id); // Menambahkan nomor telepon ke array
 
         }
@@ -283,38 +294,46 @@ app.get('/qrcode', async (req, res) => {
 
         for (var nomor = 0; nomor < nomer_telephone.length; nomor++) {
 var chatId = nomer_telephone[nomor] + "@c.us";
-var link = `ini adalah link Undangan Untuk Bapak/Ibu *${nama_kontak[nomor]}*
-https://undanganelektronik.xyz/fiorentina&fachri?v=${nama_kontak[nomor]}`;
-var textId = `💌 Undangan Walimatul 'Ursy
+var link = `ini adalah link Undangan Untuk Bapak/Ibu *${nama_depan_kontak[nomor]}*
+https://undanganelektronik.xyz/fiorentina&fachri?v=${spasikelink(nama_depan_kontak[nomor])}%20${spasikelink(nama_belakang_kontak[nomor])}`;
+var textId = `   ^=^r^l Undangan Walimatul 'Ursy
 Ykh. 
-*${nama_kontak[nomor]}*
+*${nama_depan_kontak[nomor]}*
 ____________________
 
 Bismillahirrahmanirrahim
 
 Assalamu'alaikum warahmatullahi wabarakatuh
 
-Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i *${nama_kontak[nomor]}* untuk menghadiri acara Walimatul 'Ursy Sesi 2 (jam 09.00-11.00) Pernikahan kami
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i *${nama_depan_kontak[nomor]}* untuk menghadiri acara Walimatul'Urs Pernikahan kami
+
+*Pukul : 11.00 sampai 17.00*
+*Hari : Ahad, 1 Oktober 2023*
+*Lokasi :* https://g.co/kgs/VLskus
  
-Fio Rentina Azzahra S.H
-bin Suwarno
+*Fio Rentina Azzahra S.H*
+*binti Suwarno*
                  &
-Muhammad Fachri Baharsyah S.T 
-bin Kasino
+*Muhammad Fachri Baharsyah S.T* 
+*bin Kasino*
 
 Link Undangan
 Untuk info lengkap acara, silakan kunjungi link berikut:
 
-https://undanganelektronik.xyz/fiorentina&fachri?v=${nama_kontak[nomor]}
+https://undanganelektronik.xyz/fiorentina&fachri?v=${spasikelink(nama_depan_kontak[nomor])}%20${spasikelink(nama_belakang_kontak[nomor])}
 
-Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i *${nama_kontak[nomor]}* berkenan untuk hadir dan memberikan doa restu.
+Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i *${nama_depan_kontak[nomor]}* berkenan untuk hadir dan memberikan doa restu.
 
 Mohon maaf perihal undangan hanya dibagikan melalui pesan ini.
 
 Atas perhatiannya kami ucapkan Jazaakumullaah khairaa..
 
 Wassalamu'alaikum warahmatullahi wabarakaatuh
-${req.session.nama}`;
+
+*Fio & Fachri,*
+*Suwarno*
+*Toko Buku Subur Makmur*
+`;
           
           // Sending message.
           client.sendMessage("62"+chatId, link);
@@ -398,7 +417,7 @@ app.get('/logout',(req,res)=>{
 });
 
 app.get('/', (req, res) => {
-  res.render("index");
+  res.redirect("/login");
 });
 
 app.get('/pilih_upload', async (req, res) => {
@@ -437,7 +456,10 @@ app.get('/pilih_upload', async (req, res) => {
 app.get('/pandding_kirim/:id/edit_pandding', async(req,res)=>{
   if(req.session.status=="login"){
     const db_data = await akun_data.findOne({Nama:req.session.nama,Username:req.session.username,Password:req.session.password},"Nama Username Password").exec();
-    const db_data_kontak = await VCF.find({nama_akun:req.session.nama,status:"belum_siap_kirim"},"nama_akun firstName lastName phoneNumber sebagai").exec();
+    const db_data_kontak = await VCF.find({ nama_akun: req.session.nama, status: "belum_siap_kirim" }, "nama_akun firstName lastName phoneNumber sebagai")
+    .sort({ firstName: 1 })  // Mengurutkan berdasarkan firstName secara ascending (alfabet)
+    .exec();
+  
     const itemsPerPage = 10;
     const initialData = db_data_kontak.slice(0, itemsPerPage);
     
@@ -667,7 +689,10 @@ app.get('/belum_siap_kirim_load', async (req, res) => {
   // Calculate the starting and ending indices for the current page
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const db_data_kontak = await VCF.find({nama_akun:req.session.nama,status:"belum_siap_kirim"},"nama_akun firstName lastName phoneNumber sebagai").exec();
+  const db_data_kontak = await VCF.find({ nama_akun: req.session.nama, status: "belum_siap_kirim" }, "nama_akun firstName lastName phoneNumber sebagai")
+  .sort({ firstName: 1 })  // Mengurutkan berdasarkan firstName secara ascending (alfabet)
+  .exec();
+
 
   // Get the data to load for the current page
   const currentData = db_data_kontak.slice(startIndex, endIndex);
